@@ -9,6 +9,10 @@
 int
 main(int argc, char *argv[])
 {
+    int tb[100]={0};
+  int ctr=0;
+  tb[0]=3;
+
     struct pstat st;
 
     if(argc != 2){
@@ -16,21 +20,57 @@ main(int argc, char *argv[])
         exit();
     }
 
-    int i, x, l, j;
+    //int i, x, l, j;
+    //int mypid = getpid();
+
+    /*for(i = 1; i < atoi(argv[1]); i++){
+       x = x + i;
+    }*/
+    int l, j;
     int mypid = getpid();
 
-    for(i = 1; i < atoi(argv[1]); i++){
-        x = x + i;
-    }
-
     getpinfo(&st);
-    for (j = 0; j < NPROC; j++) {
+    
+    /*for (j = 0; j < NPROC; j++) {
         if (st.inuse[j] && st.pid[j] >= 2 && st.pid[j] == mypid) {
             for (l = 0; l<4; l++) {
                 printf(1, "level:%d \t ticks-used:%d\n", l, st.ticks[j][l]);
             }
         }
+    }*/
+
+    for (j = 0; j < NPROC; j++) {
+    if (st.inuse[j] && st.pid[j] >= 3 && st.pid[j] == mypid)
+      break;
+  }
+  if (st.priority[j]!=tb[ctr]) {
+    ctr++;
+    tb[ctr]=st.priority[j];
+  }
+  while (1){
+    getpinfo(&st);
+    if (st.priority[j]!=tb[ctr]) {
+      ctr++;
+      tb[ctr]=st.priority[j];
     }
+    int s=0;
+    for (l = 3; l >= 0; l--)
+    s+=st.ticks[j][l];
+    if (s>=atoi(argv[1])) {
+      printf(1,"Process ID:%d\n",mypid);
+      for (l = 0; l <= 3; l++) {
+        printf(1, "level:%d \t ticks-used:%d\n", l,
+        st.ticks[j][l]);
+      }
+      printf(1, "Quá trình chuyển đổi giữa các hàng đợi ưu tiên: \n");
+      for (l=0; l<=ctr; l++)
+      {
+        printf(1,"%d->",tb[l] );
+      }
+      printf(1,"\n");
+      break;
+    }
+  }
     
     exit();
     return 0;

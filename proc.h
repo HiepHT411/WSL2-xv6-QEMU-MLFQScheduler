@@ -55,9 +55,9 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
 
-  /*MLFQ MODIFICATION*/
-  int priority;                // Priority of the process
-  int myticks[4];              // No of ticks of the process in all the queues
+  /*thay doi cho bai tap lon*/
+  int priority;                // Muc uu tien cua tien trinh
+  int myticks[4];              // So tick cua tien trinh trong hang doi
   /*--------END--------*/
 };
 
@@ -67,19 +67,19 @@ struct proc {
 //   fixed-size stack
 //   expandable heap
 
-/*MLFQ MODIFICATION*/
-// DEFINING THE PSTAT STRUCTURE
+/*thay doi cho btl*/
+// khai bao PSTAT STRUCTURE
 struct pstat{
-  int inuse[NPROC]; // whether this slot of the process table is in use (1 or 0)
-  int pid[NPROC];   // PID of each process
-  int priority[NPROC];  // current priority level of each process (0-3)
-  enum procstate state[NPROC];  // current state (e.g., SLEEPING or RUNNABLE) of each process
-  int ticks[NPROC][4];  // number of ticks each process has accumulated at each of 4 priorities
-  char name[NPROC][16]; // Name of the process
+  int inuse[NPROC]; // xem slot nay trong bang tien trinh da su dung chua (1 hoac 0)
+  int pid[NPROC];   // PID cua tien trinh
+  int priority[NPROC];  // muc uu tien hien tai cua tien trinh (0-3)
+  enum procstate state[NPROC];  // trang thai hien tai cua tien trinh (vi du: SLEEPING, RUNNABLE)
+  int ticks[NPROC][4];  // so luong ticks da thuc hien duoc o ca 4 hang doi
+  char name[NPROC][16]; // ten tien trinh
 };
 /*--------END--------*/
 
-/*Global Definition of queues and pointers to queues sizes*/
+/* Khai bao cac hang doi va con tro den kich thuoc hang doi*/
 extern int q0;
 extern int q1;
 extern int q2;

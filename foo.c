@@ -15,15 +15,15 @@ int main(int argc, char *argv[]){
         printf(1,"%d failed in fork!\n",getpid());
         } 
     else if (id>0){
-        while(x<1.2){
-            x = x+0.000000005;
+        while(x<1){
+            x = x+0.0005;
         }
         wait();
             
     }
     else{
-        while(x<1.2){
-            x = x+0.000000005;
+        while(x<1){
+            x = x+0.0005;
         } 
     }
     exit();

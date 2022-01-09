@@ -7,9 +7,9 @@
 #include "proc.h"
 #include "spinlock.h"
 
-/*MLFQ MODIFICATION*/
-// Defining the process queues and the corresponding maximum ticks
-int clkPerPrio[4] ={1,2,4,8};
+/*thay doi cho btl*/
+// Khai báo các hàng đợi và số lượng tick xử lý tương ứng
+int clkPerPrio[4] ={8,16,32,64};
 int q0 = -1;
 int q1 = -1;
 int q2 = -1;
@@ -103,8 +103,8 @@ allocproc(void)
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     if(p->state == UNUSED)
     {
-      /*MLFQ MODIFICATION*/
-      // Allocating new peocess a priority in initial ticks as 0 in all priority levels
+      /*thay doi cho btl*/
+      // Cap phat cho tien trinh moi muc uu tien cua tick khoi tao la 0 trong tat ca cac muc uu tien
       p->priority = 0;
       goto found;
       /*--------END--------*/
@@ -140,16 +140,16 @@ found:
   p->context->eip = (uint)forkret;
   
   
-  /*MLFQ MODIFICATION*/
-  // Setting the default priority of the new process as 0
-  // Setting the ticks at each priority level as 0
-  // Incrementing the process count in the highest priority queue
+  /*thay doi cho btl*/
+  // Dat muc uu tien cua tien trinh moi la 0
+  // Dat tick o moi muc uu tien la 0
+  // tang so luong tien trinh trong hang doi co muc uu tien cao nhat
   p->priority = 0;
   p->myticks[0] = p->myticks[1] = p->myticks[2] = p->myticks[3] = 0;
   (*p0)++;
   q_0[*p0] = p;
   
-  if (MLFQ_LOG)  cprintf("NEW PROCESS INITIALIZED PID : %d \t State : %d \t Q0 : %d !!\n",p->pid,p->state,*p0);
+  if (MLFQ_LOG)  cprintf("KHOI TAO TIEN TRINH MOI PID : %d \t State : %d \t Q0 : %d !!\n",p->pid,p->state,*p0);
   /*--------END--------*/
   return p;
 }
@@ -256,8 +256,8 @@ fork(void)
 
   np->state = RUNNABLE;
   
-  /*MLFQ MODIFICATION*/
-  // Ensuring that the scheduler knows about the new process
+  /*thay doi cho btl*/
+  // Cam co cho bo lap lich biet ve trien trình moi
   flag0=1;
   /*--------END--------*/
 
@@ -380,13 +380,14 @@ Boost(void)
   for(int i=0;i<*p3;i++)    q_3[i] = NULL;
   
   *p1=*p2=*p3=-1;
-
-  if (MLFQ_LOG) cprintf("\nBOOST DONE\n");
+  
+  //thay doi cho bai tap lon: khong in dong nay len terminal
+  //if (MLFQ_LOG) cprintf("\nBOOST DONE\n");
   release(&ptable.lock);
 }
 /*--------END--------*/
 
-/*MLFQ MODIFICATION*/
+/*thay doi cho btl*/
 void
 check_unused(struct proc **q_c,int *current)
 {
@@ -408,10 +409,10 @@ check_unused(struct proc **q_c,int *current)
 }
 /*--------END--------*/
 
-/*MLFQ MODIFICATION*/
+/*thay doi cho btl*/
 void
 log_mlfq(struct proc *p, int d){
-  cprintf("process %s, %d going to priority %d from priority %d after ticks %d \n ",p->name,p->pid,p->priority,d,p->myticks[d]);      
+  cprintf("TIEN TRINH %s, %d THAY DOI TU MUC UU TIEN %d SANG MUC UU TIEN %d SAU %d TICKS \n ",p->name,p->pid,d,p->priority,p->myticks[d]);      
 
   struct proc *t;
   for(t=ptable.proc;t<&ptable.proc[NPROC]; t++){
@@ -425,8 +426,8 @@ log_mlfq(struct proc *p, int d){
 }
 /*--------END--------*/
 
-/*MLFQ MODIFICATION*/
-// GENERALISED FUNCTION FOR HANDLING ALL THE MLFQ OPERATIONS
+/*thay doi cho bai tap lon*/
+// Ham thuc hien mlfq 
 // INPUT: CURRENT QUEUE, NEXT QUEUE, CURRENT QUEUE INDEX, NEXT QUEUE INDEX
 // INPUT: CPU, CURRENT_QUEUE_ID, NEXT_QUEUE_ID
 
@@ -437,21 +438,21 @@ mlfq(struct proc **q_current,struct proc **q_next,int *current, int *next,struct
   // LOOPING OVER ALL PROCESSES IN THE CURRENT QUEUE
   for(int i=0;i<*current+1;i++){
     
-    // ENSURING THAT THERE IS NO PROCESS IN THE HIGHER QUEUES
+    // Kiem tra xem con tien trinh nao o muc uu tien cao hon khong
     if(flag0)  return;
     if(flag1==1 && cur_q_id>=1)  return;
     if(flag2==1 && nxt_q_id>=2)  return;
 
-    // SELECTING A PROCESS
+    // thuc hien tien trinh thu i trong hang doi
     p = q_current[i];
 
-    // ENSURING THAT THE PROCESS IS RUNNABLE
+    // Kiem tra tien trinh o trang thai RUNNABLE
     if(p->state != RUNNABLE)    continue;
     
     // FUNCTION TO ENSURE THAT THE CURRENT QUEUE DOES NOT CONTAIN ANY POINTER TO
     // AN UNUSED PROCESS SLOT IN THE PROCESS TABLE
     check_unused(q_current,current);
-    
+    // Dua tien trinh den CPU, thay doi trang thai tien trinh
     // ASSIGNING THE PROCESS TO THE CPU, LOADING THE PAGES
     // CHANGING THE STATE AND CONTEXT SWITCHING TO THE PROCESS
     c->proc = p;
@@ -517,7 +518,7 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
    
-    /*MLFQ MODIFICATION*/
+    /*thay doi cho btl*/
     // RESETTING THE FLAGS THAT ENSURE THAT NO PROCESS IS IN A HIGHER QUEUE
     // THAN THE CURRENT QUEUE IN THE MLFQ FUNCTION
     flag0 = flag1 = flag2 = 0;
@@ -744,7 +745,7 @@ release(&ptable.lock);
 return 22;  
 }
 
-/*MLFQ MODIFICATION*/
+/*thay doi cho btl*/
 // SYSTEM CALL FUNCTION: getpinfo
 int
 getpinfo(struct pstat* pstat)
