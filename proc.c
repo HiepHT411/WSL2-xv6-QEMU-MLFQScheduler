@@ -149,7 +149,8 @@ found:
   (*p0)++;
   q_0[*p0] = p;
   
-  if (MLFQ_LOG)  cprintf("KHOI TAO TIEN TRINH MOI PID : %d \t State : %d \t Q0 : %d !!\n",p->pid,p->state,*p0);
+  //if (MLFQ_LOG)  cprintf("KHOI TAO TIEN TRINH MOI PID : %d \t State : %d \t Q0 : %d !!\n",p->pid,p->state,*p0);
+  if(MLFQ_LOG && (p->state==EMBRYO)) cprintf("KHOI TAO TIEN TRINH MOI, PID: %d \n", p->pid);
   /*--------END--------*/
   return p;
 }

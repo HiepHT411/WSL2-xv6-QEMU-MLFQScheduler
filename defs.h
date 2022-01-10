@@ -125,7 +125,7 @@ void            wakeup(void*);
 void            yield(void);
 int             cps(void);
 
-/*MLFQ MODIFICATION*/
+/*cac ham them vao proc.c*/
 void            mlfq(struct proc**,struct proc**,int*,int*,struct cpu*, int num1, int num2);
 void            Boost(void);
 int             getpinfo(struct pstat*);

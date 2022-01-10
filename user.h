@@ -27,7 +27,7 @@ int sleep(int);
 int uptime(void);
 int cps(void);
 
-/*MLFQ MODIFICATION*/
+/*them system call cho bai tap lon*/
 int getpinfo(struct pstat*);
 /*------- END -------*/
 

@@ -40,7 +40,7 @@ main(int argc, char *argv[])
     }*/
 
     for (j = 0; j < NPROC; j++) {
-    if (st.inuse[j] && st.pid[j] >= 3 && st.pid[j] == mypid)
+    if (st.inuse[j] && st.pid[j] >= 3 && st.pid[j])
       break;
   }
   if (st.priority[j]!=tb[ctr]) {
@@ -59,7 +59,7 @@ main(int argc, char *argv[])
     if (s>=atoi(argv[1])) {
       printf(1,"Process ID:%d\n",mypid);
       for (l = 0; l <= 3; l++) {
-        printf(1, "level:%d \t ticks-used:%d\n", l,
+        printf(1, "Queue level:%d \t xử lý:%d tick\n", l,
         st.ticks[j][l]);
       }
       printf(1, "Quá trình chuyển đổi giữa các hàng đợi ưu tiên: \n");
