@@ -12,4 +12,4 @@
 #define NBUF         (MAXOPBLOCKS*3)  // size of disk block cache
 #define FSSIZE       1000  // size of file system in blocks
 #define NBOOST       300   // Ticks before scheduler Boosting
-#define MLFQ_LOG     0   // Flag de in ra MLFQ logs
+#define MLFQ_LOG     1      // Flag de in ra MLFQ logs

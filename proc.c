@@ -382,7 +382,6 @@ Boost(void)
   
   *p1=*p2=*p3=-1;
   
-  //thay doi cho bai tap lon: khong in dong nay len terminal
   //if (MLFQ_LOG) cprintf("\nBOOST DONE\n");
   release(&ptable.lock);
 }

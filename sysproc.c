@@ -95,7 +95,7 @@ sys_cps(void)
   return cps();
 }
 
-/*MLFQ MODIFICATION*/
+/*mlfq*/
 int
 sys_getpinfo(void)
 {

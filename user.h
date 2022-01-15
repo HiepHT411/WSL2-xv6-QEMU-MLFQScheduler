@@ -27,7 +27,7 @@ int sleep(int);
 int uptime(void);
 int cps(void);
 
-/*them system call cho bai tap lon*/
+/*them system call test mlfq scheduler*/
 int getpinfo(struct pstat*);
 /*------- END -------*/
 
